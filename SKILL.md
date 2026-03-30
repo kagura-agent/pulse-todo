@@ -84,13 +84,7 @@ When talking with the user or working on tasks, maintain awareness:
 
 ## Setup
 
-When installing this skill for the first time:
-
-1. Generate TODO.md from template if it doesn't exist
-2. Simplify HEARTBEAT.md to: "Read TODO.md, execute by priority"
-3. Migrate existing tasks from old HEARTBEAT.md into TODO.md
-4. Migrate cron-only tasks into TODO.md with `cron:` attribute
-5. Update the old todo skill reference to point here
+If this is your first time using pulse-todo, follow the setup guide in [setup.md](setup.md).
 
 ## What This Replaces
 
