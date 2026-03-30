@@ -1,6 +1,6 @@
 ---
 name: pulse-todo
-description: "Unified task management and scheduling for AI agents. Use when: (1) a commitment is made (I'll do X, 帮你跟进, remember to), (2) checking what's pending (待办, what's left, 还有什么没做), (3) completing or dropping a task, (4) heartbeat/wake-up triggers a scheduling check, (5) a recurring or timed task needs to be created, (6) prioritizing what to do next. Triggers on: TODO, 待办, 记一下, 帮我跟进, remember, don't forget, 承诺, follow up, track this, what should I do, schedule, remind, 提醒, heartbeat check, 打工, next task. NOT for: one-off questions, things being done right now in this turn."
+description: "Unified task management and scheduling for AI agents. Use when: (1) a commitment is made (I'll do X, 帮你跟进, remember to), (2) checking what's pending (待办, what's left, 还有什么没做), (3) completing or dropping a task, (4) heartbeat/wake-up triggers a scheduling check, (5) a recurring or timed task needs to be created, (6) prioritizing what to do next. Triggers on: TODO, 待办, 记一下, 帮我跟进, remember, don't forget, 承诺, follow up, track this, what should I do, schedule, remind, 提醒, heartbeat check, next task. NOT for: one-off questions, things being done right now in this turn."
 ---
 
 # Pulse TODO
@@ -20,24 +20,24 @@ One list. All tasks. Every wake-up, check the pulse.
 ```markdown
 # TODO
 
-## 🔴 有人在等我 (Inbound)
-- [ ] 回复 Acontext #510 review
-- [ ] 查 GitHub 通知 | repeat: every wake
-- [ ] 查虾信 | repeat: every wake
+## 🔴 Waiting on me (Inbound)
+- [ ] Reply to PR #510 review
+- [ ] Check notifications | repeat: every wake
+- [ ] Check inbox | repeat: every wake
 
-## 🟡 有 deadline (Time-bound)
-- [ ] 提醒 Luna 公众号赌约 | due: 2026-03-31 09:45
+## 🟡 Has deadline (Time-bound)
+- [ ] Remind user about deadline | due: 2026-03-31 09:45
 
-## 🔵 承诺了要做 (Committed)
-- [ ] memex #29 semantic search
+## 🔵 Committed
+- [ ] Implement semantic search for project X
 
-## ⚪ 有空就做 (Fill)
-- [ ] 打工（scan → pick → implement）
-- [ ] 整理知识库
+## ⚪ When free (Fill)
+- [ ] Contribute to open source projects
+- [ ] Organize knowledge base
 
-## 🔄 定时任务 (Recurring)
-- [ ] daily review | repeat: 每天 3:00 | cron: daily-review
-- [ ] morning briefing | repeat: 每天 7:00 | cron: morning-briefing
+## 🔄 Recurring
+- [ ] Daily review | repeat: daily 3:00 | cron: daily-review
+- [ ] Morning briefing | repeat: daily 7:00 | cron: morning-briefing
 ```
 
 ### Attributes
@@ -70,13 +70,13 @@ When triggered by heartbeat or any "what should I do next" moment:
 4. Nothing urgent → pick from 🔵 or ⚪
 5. Nothing at all → HEARTBEAT_OK
 
-Do not hard-code signal sources in HEARTBEAT.md. "Check GitHub notifications" and "check 虾信" are TODO items with `repeat: every wake`, not heartbeat instructions.
+Do not hard-code signal sources in HEARTBEAT.md. Checking notifications and checking your inbox are TODO items with `repeat: every wake`, not heartbeat instructions.
 
 ## During Conversations
 
 When talking with the user or working on tasks, maintain awareness:
 
-- User says "do X later" or "帮我跟进" → add to TODO.md immediately
+- User says "do X later" or "remember to" → add to TODO.md immediately
 - Discover a new task while working → add to TODO.md
 - Finish something → mark [x] or delete
 - Situation changes → update priority/section/deadline
@@ -90,5 +90,5 @@ If this is your first time using pulse-todo, follow the setup guide in [setup.md
 
 - Scattered checklists in HEARTBEAT.md
 - Separate cron jobs with no visibility in task list
-- The old todo skill (basic tracking without scheduling)
+- Basic todo tracking without scheduling or priority
 - Manual "go do work" prompts from the user
