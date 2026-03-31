@@ -76,14 +76,37 @@ Append after `|`:
 8. **Only track what needs action.** "Waiting for review" on 20 PRs is not 20 TODOs — that's what notification cron is for. Track tasks where YOU need to do something.
 9. **Nudge, don't wait.** "Depends on human" items should trigger you to message them, not sit there forever.
 
+## Choosing What to Work On
+
+When picking a task from "Do it myself", **don't just grab the easiest one.** Use this decision order:
+
+### 1. Read your strategic goals
+
+Check SOUL.md, MEMORY.md, or wherever your north star / strategic direction is defined. If you don't have one, ask your human: "What's the most important thing we're working toward?"
+
+### 2. Pick by alignment, not ease
+
+- **Directly advances the north star** → do this first, even if it's hard
+- **Supports the north star indirectly** (tooling, learning, infrastructure) → second choice
+- **Useful but not aligned** (quick wins, maintenance, cleanup) → only if nothing aligned is available
+- **Not aligned and not urgent** → consider deleting it
+
+### 3. Anti-pattern: path of least resistance
+
+If you notice yourself always picking small/easy tasks and avoiding the big aligned ones, stop. That's avoidance, not productivity. The hard aligned task is almost always more valuable than three easy unaligned ones.
+
+### 4. When everything is equally aligned
+
+Break ties with: **momentum** (continue something in progress) > **time-sensitive** (deadline approaching) > **learning value** (builds knowledge you'll reuse).
+
 ## Scheduling (Heartbeat Wake-Up)
 
 When triggered by heartbeat or any "what should I do next" moment:
 
 1. Read TODO.md
-2. **Do it myself** section — pick one and do it
+2. **Do it myself** section — pick one task using the "Choosing What to Work On" logic above
 3. **Depends on human** — anything stale? Nudge them
-4. Nothing to do → HEARTBEAT_OK
+4. Nothing actionable or aligned → HEARTBEAT_OK
 
 Heartbeat is for picking up unscheduled work. Scheduled work (notifications, reminders, recurring checks) is handled by cron — don't duplicate it in heartbeat.
 
