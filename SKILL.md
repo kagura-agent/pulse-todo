@@ -9,7 +9,7 @@ One list. All tasks. Every wake-up, check the pulse.
 
 ## Core Principle
 
-**Everything is a TODO.** Inbound messages to respond to, deadlines, commitments, recurring checks, idle-time work — they're all tasks in one list. The difference is priority and attributes, not where they live.
+**Everything is a TODO.** Commitments, reminders, recurring checks, idle-time work — they're all tasks in one list. The difference is dependency and timing, not priority buckets.
 
 ## TODO.md Location
 
@@ -20,67 +20,82 @@ One list. All tasks. Every wake-up, check the pulse.
 ```markdown
 # TODO
 
-## 🔴 Waiting on me (Inbound)
-- [ ] Reply to PR #510 review
-- [ ] Check notifications | repeat: every wake
-- [ ] Check inbox | repeat: every wake
+## 📋 Tasks
 
-## 🟡 Has deadline (Time-bound)
-- [ ] Remind user about deadline | due: 2026-03-31 09:45
+### Do it myself
+- [ ] Implement semantic search for memex #29
+- [ ] Publish FlowForge v1.1.0 to npm
 
-## 🔵 Committed
-- [ ] Implement semantic search for project X
+### Depends on human
+- [ ] Cloud deployment — waiting for Luna to prepare server
+- [ ] Podcast — waiting for Luna to register accounts
 
-## ⚪ When free (Fill)
-- [ ] Contribute to open source projects
-- [ ] Organize knowledge base
+### Waiting on external
+- [ ] Tool bug #57973 — waiting for upstream fix
 
-## 🔄 Recurring
+## 🔄 Scheduled
 - [ ] Daily review | repeat: daily 3:00 | cron: daily-review
 - [ ] Morning briefing | repeat: daily 7:00 | cron: morning-briefing
+- [ ] Check GitHub + inbox | repeat: every 2h | cron: check-notifications
+- [ ] Remind Luna about X | once: 2026-03-31 09:45 | cron: remind-luna-x
 ```
+
+### Sections
+
+**📋 Tasks** — everything you need to do, grouped by dependency:
+- **Do it myself** — you can start right now, no blockers
+- **Depends on human** — need input/action from your human; nudge them or set a reminder cron
+- **Waiting on external** — upstream fixes, third-party review, etc.; cron checks will catch status changes
+
+**🔄 Scheduled** — tasks driven by cron jobs. Every `repeat:` or timed task MUST have a cron job.
 
 ### Attributes
 
 Append after `|`:
-- `repeat: <schedule>` — recurring task; don't delete on completion, reset for next cycle
-- `due: <YYYY-MM-DD>` or `due: <YYYY-MM-DD HH:MM>` — deadline
-- `cron: <job-name>` — linked to an OpenClaw cron job (must stay in sync)
+- `repeat: <schedule>` — recurring task; reset after completion, never delete
+- `once: <YYYY-MM-DD HH:MM>` — one-time scheduled task; delete or disable cron after firing
+- `cron: <job-name>` — linked to an OpenClaw cron job (MUST stay in sync)
+
+### Key Rule: repeat/timed = cron
+
+**Never rely on the model to remember timing.** If a task has `repeat:` or a specific time, it MUST have a corresponding cron job. The cron is the enforcement mechanism. The TODO entry is the documentation.
+
+- Adding a `repeat:` task → create cron job immediately
+- Adding a timed reminder → create one-time cron job immediately
+- Removing a `repeat:` task → disable/delete the cron job
 
 ### Rules
 
-Written here so the agent sees them every time TODO.md is read:
-
-1. **Priority = section order.** 🔴 > 🟡 > 🔵 > ⚪ > 🔄. Always work top-down.
-2. **Add immediately.** When a commitment is detected — from the user, from a notification, from your own work — add it before doing anything else.
-3. **One source of truth.** If it's not in TODO.md, it doesn't exist. No mental notes.
-4. **Done = verified done.** PR submitted ≠ done. PR merged = done.
-5. **Repeat tasks reset.** After completing a `repeat:` task, uncheck it — don't delete.
-6. **Stale = 3 days.** Item untouched for 3+ days? Either do it or delete it.
-7. **Move between sections.** Situation changed? Move the item to the right priority section.
-8. **Cron sync.** Adding/removing a `cron:` task means updating OpenClaw cron too.
+1. **Add immediately.** When a commitment is detected — from the user, from a notification, from your own work — add it before doing anything else.
+2. **One source of truth.** If it's not in TODO.md, it doesn't exist. No mental notes.
+3. **Done = verified done.** PR submitted ≠ done. PR merged = done.
+4. **Repeat tasks reset.** After completing a `repeat:` task, uncheck it — don't delete.
+5. **Stale = 3 days.** Item untouched for 3+ days? Either do it or delete it.
+6. **Move between sections.** Situation changed? Move the item to the right section.
+7. **Cron sync.** Adding/removing a scheduled task means updating OpenClaw cron too. Always.
+8. **Only track what needs action.** "Waiting for review" on 20 PRs is not 20 TODOs — that's what notification cron is for. Track tasks where YOU need to do something.
+9. **Nudge, don't wait.** "Depends on human" items should trigger you to message them, not sit there forever.
 
 ## Scheduling (Heartbeat Wake-Up)
 
 When triggered by heartbeat or any "what should I do next" moment:
 
 1. Read TODO.md
-2. Scan 🔴 — anything urgent? Handle it.
-3. Scan 🟡 — anything due soon? Handle it.
-4. Nothing urgent → pick from 🔵 or ⚪
-5. Nothing at all → HEARTBEAT_OK
+2. **Do it myself** section — pick one and do it
+3. **Depends on human** — anything stale? Nudge them
+4. Nothing to do → HEARTBEAT_OK
 
-Do not hard-code signal sources in HEARTBEAT.md. Checking notifications and checking your inbox are TODO items with `repeat: every wake`, not heartbeat instructions.
+Heartbeat is for picking up unscheduled work. Scheduled work (notifications, reminders, recurring checks) is handled by cron — don't duplicate it in heartbeat.
 
 ## During Conversations
 
-When talking with the user or working on tasks, maintain awareness:
+When talking with the user or working on tasks:
 
 - User says "do X later" or "remember to" → add to TODO.md immediately
+- User says "remind me at 3pm" → add to TODO.md AND create cron job
 - Discover a new task while working → add to TODO.md
 - Finish something → mark [x] or delete
-- Situation changes → update priority/section/deadline
-- New recurring task with a time → add to TODO.md with `repeat:` AND sync cron
+- New recurring task → add to TODO.md with `repeat:` AND create cron job
 
 ## Setup
 
@@ -88,7 +103,7 @@ If this is your first time using pulse-todo, follow the setup guide in [setup.md
 
 ## What This Replaces
 
+- Priority bucket systems (🔴🟡🔵⚪) that create scanning bottlenecks
+- `repeat: every wake` items that rely on model memory for timing
+- Tracking "waiting for review" as individual TODOs (use notification cron instead)
 - Scattered checklists in HEARTBEAT.md
-- Separate cron jobs with no visibility in task list
-- Basic todo tracking without scheduling or priority
-- Manual "go do work" prompts from the user

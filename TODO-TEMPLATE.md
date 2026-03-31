@@ -1,20 +1,23 @@
 # TODO
 
-> **Rules (read every time):**
-> 🔴 Waiting on me > 🟡 Has deadline > 🔵 Committed > ⚪ When free > 🔄 Recurring
-> - New task → add to the right section immediately
-> - Done → mark [x]; repeat tasks: uncheck, don't delete
-> - Stale (3+ days untouched) → do it or delete it
-> - Tasks with `cron:` → sync OpenClaw cron when changed
+> **规则（每次读到都看一眼）：**
+> - 新任务 → 立即加到对应分区
+> - 做完 → 标 [x]；repeat 的做完取消勾选，不删
+> - 拖超过 3 天 → 做或删，不留僵尸
+> - 带 `cron:` 的改了要同步 OpenClaw cron
+> - 依赖人类的 → 催他们或建 cron 提醒，不干等
 
-## 🔴 Waiting on me
-- [ ] Check notifications | repeat: every wake
-- [ ] Check inbox | repeat: every wake
+## 📋 Tasks
 
-## 🟡 Has deadline
+### Do it myself
+- [ ] (your tasks here)
 
-## 🔵 Committed
+### Depends on human
+- [ ] (tasks waiting on your human)
 
-## ⚪ When free
+### Waiting on external
+- [ ] (upstream fixes, third-party review, etc.)
 
-## 🔄 Recurring
+## 🔄 Scheduled
+- [ ] Daily review | repeat: daily 3:00 | cron: daily-review
+- [ ] Morning briefing | repeat: daily 7:00 | cron: morning-briefing
