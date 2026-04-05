@@ -15,13 +15,14 @@ If `TODO.md` doesn't exist in your workspace root, copy the template:
 cp TODO-TEMPLATE.md ~/.openclaw/workspace/TODO.md
 ```
 
-If `TODO.md` already exists, merge your existing tasks into the new format. The five sections are:
+If `TODO.md` already exists, merge your existing tasks into the new format. The sections are:
 
-- 🔴 有人在等我 (Inbound)
-- 🟡 有 deadline (Time-bound)
-- 🔵 承诺了要做 (Committed)
-- ⚪ 有空就做 (Fill)
-- 🔄 定时任务 (Recurring)
+**📋 Tasks** — grouped by dependency:
+- **Do it myself** — no blockers, you can start right now
+- **Depends on human** — need input/action from your human
+- **Waiting on external** — upstream fixes, third-party review, etc.
+
+**🔄 Scheduled** — recurring and timed tasks, each linked to a cron job
 
 ### 2. Update HEARTBEAT.md
 
@@ -39,18 +40,18 @@ Remove any items that are now in TODO.md (e.g., "check GitHub notifications", "c
 Scan these sources for tasks that should move into TODO.md:
 
 - **Old HEARTBEAT.md** — any checklist items → move to appropriate section
-- **Cron jobs** (`~/.openclaw/cron/jobs.json`) — add corresponding entries to 🔄 with `cron: <job-name>` attribute
+- **Cron jobs** (`~/.openclaw/cron/jobs.json`) — add corresponding entries to 🔄 Scheduled with `cron: <job-name>` attribute
 - **Memory files** — any "TODO" or "need to do" mentions → add if still relevant
-- **Old TODO.md** — reformat existing items into the five sections
+- **Old TODO.md** — reformat existing items into the three task groups + Scheduled
 
 ### 4. Verify
 
 Read your new TODO.md top to bottom. Ask yourself:
 
 - Does every task I know about appear here?
-- Are recurring tasks (daily review, notifications check) included?
+- Are recurring tasks (daily review, notifications check) included in 🔄 Scheduled?
 - Do cron-linked tasks have the `cron:` attribute?
-- Is the priority ordering correct?
+- Is the dependency grouping correct? (Do it myself / Depends on human / Waiting on external)
 
 ## Done
 
