@@ -34,3 +34,7 @@ See [setup.md](setup.md) for first-time configuration steps.
 ## License
 
 MIT
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=kagura-agent/pulse-todo&type=Date)](https://star-history.com/#kagura-agent/pulse-todo&Date)
