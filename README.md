@@ -37,4 +37,10 @@ MIT
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=kagura-agent/pulse-todo&type=Date)](https://star-history.com/#kagura-agent/pulse-todo&Date)
+<a href="https://www.star-history.com/#kagura-agent/pulse-todo&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=kagura-agent/pulse-todo&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=kagura-agent/pulse-todo&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=kagura-agent/pulse-todo&type=Date" />
+ </picture>
+</a>
